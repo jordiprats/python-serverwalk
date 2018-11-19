@@ -2,13 +2,14 @@ import salt.client.ssh.client
 
 class Host:
     hostname = ""
+    fqdn = ""
     kernel = ""
     uptime = ""
     runlevel = ""
     os = ""
     os_release = ""
     os_family = ""
-
+    memory = ""
 
 def getHosts():
     ssh = salt.client.ssh.client.SSHClient()
@@ -57,3 +58,13 @@ def getHostInfo(hosts):
     salt_results = ssh.cmd('*', 'grains.get', ['osrelease'])
     for salt_host in salt_results:
         hosts[salt_host].os_release = salt_results[salt_host]['return']
+
+    # fqdn
+    salt_results = ssh.cmd('*', 'grains.get', ['fqdn'])
+    for salt_host in salt_results:
+        hosts[salt_host].fqdn = salt_results[salt_host]['return']
+
+    # memory
+    salt_results = ssh.cmd('*', 'grains.get', ['mem_total'])
+    for salt_host in salt_results:
+        hosts[salt_host].fqdn = salt_results[salt_host]['return']
