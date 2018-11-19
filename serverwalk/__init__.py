@@ -10,6 +10,8 @@ class Host:
     os_release = ""
     os_family = ""
     memory = ""
+    encoding = ""
+    language = ""
 
 def getHosts():
     ssh = salt.client.ssh.client.SSHClient()
@@ -68,3 +70,9 @@ def getHostInfo(hosts):
     salt_results = ssh.cmd('*', 'grains.get', ['mem_total'])
     for salt_host in salt_results:
         hosts[salt_host].fqdn = salt_results[salt_host]['return']
+
+    # locale
+    salt_results = ssh.cmd('*', 'grains.get', ['locale_info'])
+    for salt_host in salt_results:
+        hosts[salt_host].encoding = salt_results[salt_host]['return']['defaultencoding']
+        hosts[salt_host].language = salt_results[salt_host]['return']['defaultlanguage']
