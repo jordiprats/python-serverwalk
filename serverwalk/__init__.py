@@ -5,7 +5,8 @@ class Host:
     kernel = ""
     uptime = ""
     runlevel = ""
-    # os release
+    os = ""
+    os_release = ""
 
 
 def getHosts():
@@ -40,3 +41,13 @@ def getHostInfo(hosts):
     for salt_host in salt_results:
         if salt_results[salt_host]['retcode']==0:
             hosts[salt_host].runlevel = salt_results[salt_host]['return'].split(' ')[1]
+
+    # os
+    salt_results = ssh.cmd('*', 'grains.get', ['os'])
+    for salt_host in salt_results:
+        hosts[salt_host].os = salt_results[salt_host]['return']
+
+    # os release
+    salt_results = ssh.cmd('*', 'grains.get', ['osrelease'])
+    for salt_host in salt_results:
+        hosts[salt_host].os = salt_results[salt_host]['return']
