@@ -2,9 +2,9 @@ import salt.client.ssh.client
 
 class Host:
     hostname = ""
-    runlevel = ""
-    uptime = ""
     kernel = ""
+    uptime = ""
+    runlevel = ""
     # os release
 
 
