@@ -1,17 +1,17 @@
 import salt.client.ssh.client
 
 class Host:
-    hostname = ""
-    fqdn = ""
-    kernel = ""
-    uptime = ""
-    runlevel = ""
-    os = ""
+    hostname   = ""
+    fqdn       = ""
+    kernel     = ""
+    uptime     = ""
+    runlevel   = ""
+    os         = ""
     os_release = ""
-    os_family = ""
-    memory = ""
-    encoding = ""
-    language = ""
+    os_family  = ""
+    memory     = ""
+    encoding   = ""
+    language   = ""
 
 def getHosts():
     ssh = salt.client.ssh.client.SSHClient()
