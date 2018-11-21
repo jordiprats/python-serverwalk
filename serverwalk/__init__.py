@@ -29,13 +29,14 @@ class Host:
             'mountpoints': []
         }
 
+# Filesystem              Size  Used Avail Use% Mounted on
+# /dev/sda1 on /boot type xfs (rw,relatime,seclabel,attr2,inode64,noquota)
 class StorageMountpoint:
     def __init__(self):
         self.device = None
         self.mount = None
         self.fstype = None
         self.opts = None
-        #Filesystem              Size  Used Avail Use% Mounted on
         self.size = {
             'total': None,
             'used': None,
@@ -146,5 +147,13 @@ def getHostInfo(hosts):
 
     #total_swap
     salt_results = ssh.cmd('*', 'cmd.run', ['free -m | grep ^Swap: | awk \'{ print $4 }\''])
+    for salt_host in salt_results:
+        hosts[salt_host].memory['free_swap'] = salt_results[salt_host]['return']
+
+    #
+    # storage - mounts
+    #
+
+    salt_results = ssh.cmd('*', 'cmd.run', ['mount'])
     for salt_host in salt_results:
         hosts[salt_host].memory['free_swap'] = salt_results[salt_host]['return']
