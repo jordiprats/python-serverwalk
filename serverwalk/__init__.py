@@ -156,4 +156,4 @@ def getHostInfo(hosts):
 
     salt_results = ssh.cmd('*', 'cmd.run', ['mount'])
     for salt_host in salt_results:
-        hosts[salt_host].memory['free_swap'] = salt_results[salt_host]['return']
+        mount = salt_results[salt_host]['return']
