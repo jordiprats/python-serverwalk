@@ -156,4 +156,18 @@ def getHostInfo(hosts):
 
     salt_results = ssh.cmd('*', 'cmd.run', ['mount'])
     for salt_host in salt_results:
-        mount = salt_results[salt_host]['return']
+        if salt_results[salt_host]['retcode']==0:
+            mounts = salt_results[salt_host]['return'].splitlines()
+            for mount in mounts:
+                items = mount.split(' ')
+                storagemount = StorageMountpoint()
+                storagemount.device = items[0]
+                storagemount.mount = items[2]
+                storagemount.fstype = items[4]
+                storagemount.opts = items[5]
+                hosts[salt_host].storage['mountpoints'].append(storagemount)
+
+    salt_results = ssh.cmd('*', 'cmd.run', ['df -hP'])
+    for salt_host in salt_results:
+
+    #next((x for x in test_list if x.value == value), None)
